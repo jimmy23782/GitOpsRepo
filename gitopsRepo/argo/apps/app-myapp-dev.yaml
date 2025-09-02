@@ -8,10 +8,11 @@ spec:
   source:
     repoURL: https://github.com/jimmy23782/GitOpsRepo.git
     targetRevision: feature/setuphelmcharts
-    path: helm-charts/myapp
+    path: gitopsRepo/helm-charts/myapp
     helm:
       valueFiles:
         - values.yaml
+      ignoreMissingValueFiles: false
   destination:
     server: https://kubernetes.default.svc
     namespace: myapp-dev

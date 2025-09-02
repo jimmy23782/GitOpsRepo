@@ -6,7 +6,7 @@ metadata:
 spec:
   description: Default project for demo apps
   sourceRepos:
-    - 'https://github.com/jimmy23782/GitOpsRepo'        # this repo
+    - 'https://github.com/jimmy23782/GitOpsRepo*'       # this repo
   destinations:
     - namespace: '*'
       server: 'https://kubernetes.default.svc'

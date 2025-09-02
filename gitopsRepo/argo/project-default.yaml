@@ -1,15 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: default
+  name: Jimmys-argocd-project-default
   namespace: argocd
 spec:
-  description: Default project for apps
+  description: Default project for demo apps
   sourceRepos:
-    - '*'
+    - 'https://github.com/jimmy23782/GitOpsRepo'        # this repo
   destinations:
     - namespace: '*'
-      server: https://kubernetes.default.svc
+      server: 'https://kubernetes.default.svc'
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'
+  orphanedResources:
+    warn: true

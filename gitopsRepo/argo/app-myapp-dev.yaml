@@ -6,15 +6,15 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/<ORG>/<GITOPS_REPO>.git
-    targetRevision: main
+    repoURL: 'https://github.com/jimmy23782/GitOpsRepo'
+    targetRevision: main                         # or your branch: feature/setuphelmcharts
     path: helm-charts/myapp
     helm:
       valueFiles:
         - ../../gitops/environments/dev/values-dev.yaml
   destination:
-    server: https://kubernetes.default.svc
-    namespace: myapp
+    server: 'https://kubernetes.default.svc'
+    namespace: myapp-dev
   syncPolicy:
     automated:
       prune: true

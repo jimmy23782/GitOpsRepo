@@ -4,15 +4,15 @@ metadata:
   name: myapp-dev
   namespace: argocd
 spec:
- # project: default
+  project: default   # or: Jimmys-argocd-project-default
   source:
     repoURL: https://github.com/jimmy23782/GitOpsRepo.git
     targetRevision: feature/setuphelmcharts
-    path: gitopsRepo/helm-charts/myapp
+    path: helm-charts/myapp                # <-- FIXED (remove gitopsRepo/)
     helm:
       valueFiles:
         - values.yaml
-        - ../../environments/dev/values-myapp-dev.yaml
+        - ../../gitops/environments/dev/values-myapp-dev.yaml   # <-- FIXED (add gitops/)
       ignoreMissingValueFiles: false
   destination:
     server: https://kubernetes.default.svc

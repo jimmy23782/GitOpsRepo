@@ -1,0 +1,10 @@
+image:
+  repository: 685801731369.dkr.ecr.ap-southeast-2.amazonaws.com/students-demo
+  tag: "25e54f8" # better: use immutable tag (e.g., Git SHA) and have CI bump this
+  pullPolicy: IfNotPresent
+replicaCount: 1
+service:
+  type: LoadBalancer # you asked for a public LB in dev
+  port: 80
+  targetPort: 8080
+resources: {}

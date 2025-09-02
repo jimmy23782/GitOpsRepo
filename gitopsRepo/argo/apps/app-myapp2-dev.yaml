@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: myapp-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/jimmy23782/GitOpsRepo'
+    targetRevision: main                         # or your branch: feature/setuphelmcharts
+    path: helm-charts/myapp
+    helm:
+      valueFiles:
+        - ../../gitops/environments/dev/values-dev.yaml
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: myapp-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

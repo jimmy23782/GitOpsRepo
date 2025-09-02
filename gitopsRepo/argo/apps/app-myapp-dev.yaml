@@ -4,7 +4,7 @@ metadata:
   name: myapp-dev
   namespace: argocd
 spec:
-  project: default
+ # project: default
   source:
     repoURL: https://github.com/jimmy23782/GitOpsRepo.git
     targetRevision: feature/setuphelmcharts
@@ -12,6 +12,7 @@ spec:
     helm:
       valueFiles:
         - values.yaml
+        - ../../environments/dev/values-myapp-dev.yaml
       ignoreMissingValueFiles: false
   destination:
     server: https://kubernetes.default.svc

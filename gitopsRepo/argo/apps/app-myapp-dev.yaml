@@ -3,18 +3,20 @@ kind: Application
 metadata:
   name: myapp-dev
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=true
 spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: myapp-dev
   source:
     repoURL: https://github.com/jimmy23782/GitOpsRepo.git
     targetRevision: feature/setuphelmcharts
     path: gitopsRepo/helm-charts/myapp
     helm:
       valueFiles:
-        - gitops/environments/dev/values-myapp-dev.yaml
-      ignoreMissingValueFiles: false
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: myapp-dev
+        - ../../gitops/environments/dev/values-myapp-dev.yaml
   syncPolicy:
     automated:
       prune: true

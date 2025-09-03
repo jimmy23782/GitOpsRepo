@@ -4,16 +4,13 @@ metadata:
   name: myapp-dev
   namespace: argocd
 spec:
-  project: default   # or: Jimmys-argocd-project-default
   source:
     repoURL: https://github.com/jimmy23782/GitOpsRepo.git
     targetRevision: feature/setuphelmcharts
     path: gitopsRepo/helm-charts/myapp
     helm:
-      # Chart's own values.yaml is picked up automatically by Helm.
-      # Add ONLY your env overlay file:
       valueFiles:
-        - ../../gitops/environments/dev/values-myapp-dev.yaml
+        - gitops/environments/dev/values-myapp-dev.yaml
       ignoreMissingValueFiles: false
   destination:
     server: https://kubernetes.default.svc

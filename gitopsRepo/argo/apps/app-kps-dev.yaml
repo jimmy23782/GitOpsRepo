@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack-dev
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  source:
+    repoURL: https://github.com/jimmy23782/GitOpsRepo.git
+    targetRevision: feature/setuphelmcharts # branch name
+    path: helm-charts/kube-prometheus-stack
+    helm:
+      valueFiles:
+        - gitops/environments/dev/values-kps-dev.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

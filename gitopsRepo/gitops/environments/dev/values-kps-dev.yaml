@@ -1,0 +1,17 @@
+# Minimal, safe defaults for dev. Port-forward to test; add Ingress & PVCs later.
+
+grafana:
+  enabled: true
+  adminPassword: admin
+  service:
+    type: ClusterIP
+  persistence:
+    enabled: false
+
+alertmanager:
+  enabled: false
+
+prometheus:
+  prometheusSpec:
+    retention: 7d
+    storageSpec: {}   # no PVC yet (ephemeral)

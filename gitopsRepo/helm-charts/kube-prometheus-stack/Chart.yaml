@@ -1,0 +1,10 @@
+apiVersion: v2
+name: kube-prometheus-stack
+description: Wrapper chart to install kube-prometheus-stack via Argo CD
+type: application
+version: 0.1.0
+
+dependencies:
+  - name: kube-prometheus-stack
+    version: 62.7.0
+    repository: https://prometheus-community.github.io/helm-charts

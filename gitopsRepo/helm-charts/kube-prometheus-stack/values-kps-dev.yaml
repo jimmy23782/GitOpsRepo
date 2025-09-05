@@ -10,6 +10,8 @@ alertmanager:
   enabled: false
 
 prometheus:
+  admissionWebhooks:
+    enabled: false
   enabled: true          # <-- add this
   prometheusSpec:
     retention: 7d

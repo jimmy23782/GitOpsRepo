@@ -3,7 +3,7 @@ kps:
     enabled: true
     adminPassword: admin
     service:
-      type: LoadBalancer          # change to LoadBalancer if you want an ELB
+      type: LoadBalancer   # ClusterIP if you don't want an ELB
     persistence:
       enabled: false
 
@@ -12,14 +12,14 @@ kps:
 
   prometheus:
     enabled: true
+    service:
+      type: LoadBalancer   # ClusterIP if you don't want an ELB
     prometheusSpec:
       retention: 7d
-      storageSpec: {}          # ephemeral for dev
-    service:
-      type: LoadBalancer          # change to LoadBalancer if you want an ELB
+      storageSpec: {}      # ephemeral for dev
 
   prometheusOperator:
     admissionWebhooks:
-      enabled: false           # disable the webhook & its patch job
+      enabled: false
       patch:
         enabled: false

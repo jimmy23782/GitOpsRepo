@@ -10,12 +10,12 @@ spec:
     namespace: monitoring
   source:
     repoURL: https://github.com/jimmy23782/GitOpsRepo.git
-    targetRevision: feature/setuphelmcharts     # or main later
+    targetRevision: feature/setuphelmcharts   # switch to main later
     path: gitopsRepo/helm-charts/kube-prometheus-stack
     helm:
       version: v3
-      skipCrds: true
       releaseName: kube-prometheus-stack-dev
+      skipCrds: true
       valueFiles:
         - values-kps-dev.yaml
   syncPolicy:
@@ -27,3 +27,4 @@ spec:
       - ServerSideApply=true
       - PruneLast=true
       - Replace=true
+      - Timeout=600

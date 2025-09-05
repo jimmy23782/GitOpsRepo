@@ -1,10 +1,4 @@
-prometheus:
-  enabled: true
-  prometheusSpec:
-    retention: 7d
-    storageSpec: {}  # ephemeral ok for dev
-alertmanager:
-  enabled: false
+# gitopsRepo/helm-charts/kube-prometheus-stack/values-kps-dev.yaml
 grafana:
   enabled: true
   adminPassword: admin
@@ -12,7 +6,17 @@ grafana:
     type: ClusterIP
   persistence:
     enabled: false
+
+alertmanager:
+  enabled: false
+
+prometheus:
+  enabled: true
+  prometheusSpec:
+    retention: 7d
+    storageSpec: {}   # ephemeral ok for dev
+
 prometheusOperator:
   admissionWebhooks:
     patch:
-      enabled: false   # avoids the extra patch jobs/RBAC churn in dev
+      enabled: false

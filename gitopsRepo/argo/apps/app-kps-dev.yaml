@@ -10,14 +10,20 @@ spec:
     namespace: monitoring
   source:
     repoURL: https://github.com/jimmy23782/GitOpsRepo.git
-    targetRevision: feature/setuphelmcharts # branch name
+    targetRevision: feature/setuphelmcharts     # or main later
     path: gitopsRepo/helm-charts/kube-prometheus-stack
     helm:
+      version: v3
+      skipCrds: false
+      releaseName: kube-prometheus-stack-dev
       valueFiles:
-        - ../../gitops/environments/dev/values-kps-dev.yaml
+        - values-kps-dev.yaml
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true
+      - PruneLast=true
+      - Replace=true

@@ -1,12 +1,10 @@
-# gitopsRepo/helm-charts/kube-prometheus-stack/values-kps-dev.yaml
-kube-prometheus-stack:
+# NOTE: nest under the alias key
+kps:
   grafana:
     enabled: true
     adminPassword: admin
-    service:
-      type: ClusterIP
-    persistence:
-      enabled: false
+    service: { type: ClusterIP }
+    persistence: { enabled: false }
 
   alertmanager:
     enabled: false
@@ -15,7 +13,7 @@ kube-prometheus-stack:
     enabled: true
     prometheusSpec:
       retention: 7d
-      storageSpec: {}   # ephemeral for dev
+      storageSpec: {}
 
   prometheusOperator:
     admissionWebhooks:

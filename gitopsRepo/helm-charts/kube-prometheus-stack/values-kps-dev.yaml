@@ -1,10 +1,11 @@
-# NOTE: nest under the alias key
 kps:
   grafana:
     enabled: true
     adminPassword: admin
-    service: { type: ClusterIP }
-    persistence: { enabled: false }
+    service:
+      type: LoadBalancer          # change to LoadBalancer if you want an ELB
+    persistence:
+      enabled: false
 
   alertmanager:
     enabled: false
@@ -13,9 +14,12 @@ kps:
     enabled: true
     prometheusSpec:
       retention: 7d
-      storageSpec: {}
+      storageSpec: {}          # ephemeral for dev
+    service:
+      type: LoadBalancer          # change to LoadBalancer if you want an ELB
 
   prometheusOperator:
     admissionWebhooks:
+      enabled: false           # disable the webhook & its patch job
       patch:
         enabled: false

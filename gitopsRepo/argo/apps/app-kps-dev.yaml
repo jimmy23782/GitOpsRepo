@@ -17,7 +17,7 @@ spec:
       skipCrds: true
       releaseName: kube-prometheus-stack-dev
       valueFiles:
-        - gitops/environments/dev/values-kps-dev.yaml
+        - values-kps-dev.yaml
   syncPolicy:
     automated:
       prune: true

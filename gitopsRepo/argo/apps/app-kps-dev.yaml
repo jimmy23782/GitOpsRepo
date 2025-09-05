@@ -14,7 +14,7 @@ spec:
     path: gitopsRepo/helm-charts/kube-prometheus-stack
     helm:
       version: v3
-      skipCrds: false
+      skipCrds: true
       releaseName: kube-prometheus-stack-dev
       valueFiles:
         - values-kps-dev.yaml

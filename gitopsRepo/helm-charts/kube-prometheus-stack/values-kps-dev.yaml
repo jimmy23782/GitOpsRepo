@@ -1,3 +1,10 @@
+prometheus:
+  enabled: true
+  prometheusSpec:
+    retention: 7d
+    storageSpec: {}  # ephemeral ok for dev
+alertmanager:
+  enabled: false
 grafana:
   enabled: true
   adminPassword: admin
@@ -5,14 +12,7 @@ grafana:
     type: ClusterIP
   persistence:
     enabled: false
-
-alertmanager:
-  enabled: false
-
-prometheus:
+prometheusOperator:
   admissionWebhooks:
-    enabled: false
-  enabled: true          # <-- add this
-  prometheusSpec:
-    retention: 7d
-    storageSpec: {}      # no PVC yet (ephemeral)
+    patch:
+      enabled: false   # avoids the extra patch jobs/RBAC churn in dev

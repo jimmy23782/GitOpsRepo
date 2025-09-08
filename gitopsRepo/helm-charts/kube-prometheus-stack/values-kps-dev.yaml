@@ -1,9 +1,23 @@
 kps:
+  kubeEtcd:
+    enabled: false
+  kubeControllerManager:
+    enabled: false
+  kubeScheduler:
+    enabled: false
+
+  prometheusOperator:
+    # Keep webhooks off while bootstrapping if you like; turn on later for validation.
+    admissionWebhooks:
+      enabled: false
+      patch:
+        enabled: false
+
   grafana:
     enabled: true
     adminPassword: admin
     service:
-      type: LoadBalancer   # ClusterIP if you don't want an ELB
+      type: ClusterIP           # or ClusterIP if you’ll port-forward
     persistence:
       enabled: false
 
@@ -13,13 +27,8 @@ kps:
   prometheus:
     enabled: true
     service:
-      type: LoadBalancer   # ClusterIP if you don't want an ELB
+      type: ClusterIP           # or ClusterIP for port-forwarding
     prometheusSpec:
       retention: 7d
-      storageSpec: {}      # ephemeral for dev
-
-  prometheusOperator:
-    admissionWebhooks:
-      enabled: false
-      patch:
-        enabled: false
+      storageSpec: {}              # no PVCs for first run
+      serviceMonitorSelectorNilUsesHelmValues: false

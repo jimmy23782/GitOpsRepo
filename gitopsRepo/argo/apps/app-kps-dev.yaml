@@ -15,7 +15,7 @@ spec:
     helm:
       version: v3
       releaseName: kube-prometheus-stack-dev
-      skipCrds: true
+      skipCrds: false
       valueFiles:
         - values-kps-dev.yaml
   syncPolicy:

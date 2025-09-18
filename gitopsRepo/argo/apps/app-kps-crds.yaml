@@ -13,12 +13,11 @@ spec:
   source:
     repoURL: https://prometheus-community.github.io/helm-charts
     chart: prometheus-operator-crds
-    targetRevision: 11.0.0   # keep this compatible with your operator (v0.76.x)
+    targetRevision: "23.0.0"        # recent CRDs tag
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-      - ServerSideApply=true
       - PruneLast=true
-      - Replace=true
+      - Replace=true               # ← no ServerSideApply

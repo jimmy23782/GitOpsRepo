@@ -15,7 +15,7 @@ spec:
     helm:
       version: v3
       releaseName: kube-prometheus-stack-dev
-      skipCrds: false
+      skipCrds: true                 # CRDs managed separately
       valueFiles:
         - values-kps-dev.yaml
   syncPolicy:
@@ -24,13 +24,6 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      - ServerSideApply=true
       - PruneLast=true
-      - Replace=true
+      - Replace=true               # ← no ServerSideApply
       - Timeout=600
-
-  ignoreDifferences:
-    - group: ""
-      kind: ServiceAccount
-      jsonPointers:
-        - /automountServiceAccountToken

@@ -28,3 +28,9 @@ spec:
       - PruneLast=true
       - Replace=true
       - Timeout=600
+
+  ignoreDifferences:
+    - group: ""
+      kind: ServiceAccount
+      jsonPointers:
+        - /automountServiceAccountToken

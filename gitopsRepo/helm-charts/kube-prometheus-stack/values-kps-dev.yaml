@@ -1,3 +1,15 @@
+# ROOT (belt & suspenders while we verify)
+prometheusOperator:
+  admissionWebhooks:
+    enabled: false
+    patch:
+      enabled: false
+  tls:
+    enabled: false
+  serviceMonitor:
+    selfMonitor: false
+
+# Under your alias (single block — no duplicates)
 kps:
   kubeEtcd:
     enabled: false
@@ -7,17 +19,20 @@ kps:
     enabled: false
 
   prometheusOperator:
-    # Keep webhooks off while bootstrapping if you like; turn on later for validation.
     admissionWebhooks:
       enabled: false
       patch:
         enabled: false
+    tls:
+      enabled: false
+    serviceMonitor:
+      selfMonitor: false
 
   grafana:
     enabled: true
     adminPassword: admin
     service:
-      type: ClusterIP           # or ClusterIP if you’ll port-forward
+      type: ClusterIP
     persistence:
       enabled: false
 
@@ -27,8 +42,8 @@ kps:
   prometheus:
     enabled: true
     service:
-      type: ClusterIP           # or ClusterIP for port-forwarding
+      type: ClusterIP
     prometheusSpec:
       retention: 7d
-      storageSpec: {}              # no PVCs for first run
+      storageSpec: {}
       serviceMonitorSelectorNilUsesHelmValues: false

@@ -1,0 +1,69 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: otel-filelog
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: observability
+  source:
+    repoURL: https://open-telemetry.github.io/opentelemetry-helm-charts
+    chart: opentelemetry-collector
+    targetRevision: 0.101.1
+    helm:
+      values: |
+        mode: daemonset
+        image:
+          repository: otel/opentelemetry-collector-contrib
+        presets:
+          logsCollection:
+            enabled: true
+        config:
+          receivers:
+            filelog:
+              include: [ /var/log/containers/*.log ]
+              start_at: beginning
+              storage:
+                directory: /var/lib/otelcol/positions
+              operators:
+                - type: json_parser
+                  id: parse-json
+                  if: body matches '^\\{'
+                  parse_from: body
+          processors:
+            batch: {}
+          exporters:
+            loki:
+              endpoint: http://loki.observability.svc.cluster.local:3100/loki/api/v1/push
+              labels:
+                attributes:
+                  k8s.namespace.name: namespace
+                  k8s.pod.name: pod
+                  k8s.container.name: container
+                  service.name: service
+          service:
+            pipelines:
+              logs:
+                receivers: [filelog]
+                processors: [batch]
+                exporters: [loki]
+        extraVolumes:
+          - name: varlog
+            hostPath:
+              path: /var/log/containers
+          - name: positions
+            emptyDir: {}
+        extraVolumeMounts:
+          - name: varlog
+            mountPath: /var/log/containers
+            readOnly: true
+          - name: positions
+            mountPath: /var/lib/otelcol/positions
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

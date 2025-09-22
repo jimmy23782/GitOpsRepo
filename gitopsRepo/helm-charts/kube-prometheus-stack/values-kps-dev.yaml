@@ -36,6 +36,11 @@ kps:
     persistence:
       enabled: false
 
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      url: http://loki.observability.svc.cluster.local:3100
+
   alertmanager:
     enabled: false
 

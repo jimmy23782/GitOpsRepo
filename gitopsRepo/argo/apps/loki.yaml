@@ -15,10 +15,9 @@ spec:
     helm:
       values: |
         # ---------- DEPLOYMENT MODE ----------
-        # Force simple, single-process Loki (no object storage required)
         deploymentMode: SingleBinary
 
-        # Make 100% sure scalable bits are OFF (prevents validator errors)
+        # Disable scalable components
         backend:
           replicas: 0
         read:
@@ -27,9 +26,9 @@ spec:
           replicas: 0
         gateway:
           enabled: false
-        simpleScalable: {}  # explicitly empty
+        simpleScalable: {}
 
-        # ---------- LOKI CONFIG (filesystem) ----------
+        # ---------- LOKI CONFIG (filesystem only) ----------
         loki:
           auth_enabled: false
           storage:
@@ -58,9 +57,7 @@ spec:
         singleBinary:
           replicas: 1
           persistence:
-            enabled: false
-            storageClassName: gp3
-            size: 50Gi
+            enabled: false   # disable persistence (no PVCs)
   syncPolicy:
     automated:
       prune: true

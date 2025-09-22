@@ -14,13 +14,41 @@ spec:
     targetRevision: 6.6.5
     helm:
       values: |
+        # Force the simple, single-process mode (no object storage needed)
+        deploymentMode: SingleBinary
+
         loki:
           storage:
-            type: filesystem     # dev only; use S3 in prod
-        persistence:
-          enabled: true
-          storageClassName: gp3
-          size: 50Gi
+            type: filesystem
+          auth_enabled: false     # optional, simplifies local dev
+          commonConfig:
+            replication_factor: 1
+
+          # (Optional but sensible defaults for single node)
+          schemaConfig:
+            configs:
+              - from: "2024-01-01"
+                store: boltdb-shipper
+                object_store: filesystem
+                schema: v13
+                index:
+                  prefix: loki_index_
+                  period: 24h
+          ruler:
+            storage:
+              type: local
+              local:
+                directory: /data/rules
+          compactor:
+            working_directory: /data/boltdb-shipper-compactor
+            shared_store: filesystem
+
+        singleBinary:
+          replicas: 1
+          persistence:
+            enabled: true
+            storageClassName: gp3
+            size: 50Gi
   syncPolicy:
     automated:
       prune: true

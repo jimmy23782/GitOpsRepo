@@ -58,7 +58,7 @@ spec:
         singleBinary:
           replicas: 1
           persistence:
-            enabled: true
+            enabled: false
             storageClassName: gp3
             size: 50Gi
   syncPolicy:

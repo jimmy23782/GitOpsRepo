@@ -18,15 +18,20 @@ spec:
         deploymentMode: SingleBinary
 
         # Disable scalable components
-        backend:
-          replicas: 0
-        read:
-          replicas: 0
-        write:
-          replicas: 0
+        backend: { replicas: 0 }
+        read:    { replicas: 0 }
+        write:   { replicas: 0 }
         gateway:
           enabled: false
         simpleScalable: {}
+
+        # Turn off extras (keeps it lean, avoids extra PVCs)
+        lokiCanary:
+          enabled: false
+        chunksCache:
+          enabled: false
+        resultsCache:
+          enabled: false
 
         # ---------- LOKI CONFIG (filesystem only) ----------
         loki:
@@ -57,10 +62,11 @@ spec:
         singleBinary:
           replicas: 1
           persistence:
-            enabled: false   # disable persistence (no PVCs)
+            enabled: false   # no PVCs
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - Replace=true        # <-- allow Argo to delete & recreate immutables

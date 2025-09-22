@@ -14,17 +14,28 @@ spec:
     targetRevision: 6.6.5
     helm:
       values: |
-        # Force the simple, single-process mode (no object storage needed)
+        # ---------- DEPLOYMENT MODE ----------
+        # Force simple, single-process Loki (no object storage required)
         deploymentMode: SingleBinary
 
+        # Make 100% sure scalable bits are OFF (prevents validator errors)
+        backend:
+          replicas: 0
+        read:
+          replicas: 0
+        write:
+          replicas: 0
+        gateway:
+          enabled: false
+        simpleScalable: {}  # explicitly empty
+
+        # ---------- LOKI CONFIG (filesystem) ----------
         loki:
+          auth_enabled: false
           storage:
             type: filesystem
-          auth_enabled: false     # optional, simplifies local dev
           commonConfig:
             replication_factor: 1
-
-          # (Optional but sensible defaults for single node)
           schemaConfig:
             configs:
               - from: "2024-01-01"
@@ -43,6 +54,7 @@ spec:
             working_directory: /data/boltdb-shipper-compactor
             shared_store: filesystem
 
+        # ---------- SINGLE BINARY POD ----------
         singleBinary:
           replicas: 1
           persistence:
